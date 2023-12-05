@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+   <!-- update the version number as needed -->
+   <script defer src="/__/firebase/10.7.0/firebase-app-compat.js"></script>
+   <!-- include only the Firebase features as you need -->
+   <script defer src="/__/firebase/10.7.0/firebase-auth-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-database-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-firestore-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-functions-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-messaging-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-storage-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-analytics-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-remote-config-compat.js"></script>
+   <script defer src="/__/firebase/10.7.0/firebase-performance-compat.js"></script>
+   <!-- 
+     initialize the SDK after all desired features are loaded, set useEmulator to false
+     to avoid connecting the SDK to running emulators.
+   -->
+   <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Predicción de Mortalidad</title>
+    <style>
+
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        #app-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #f8f9fa;
+        }
+
+        .result-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <!-- Pestañas -->
+        <ul class="nav nav-tabs" id="myTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info">Presentación</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="prediction-tab" data-toggle="tab" href="#prediction">Predicción</a>
+            </li>
+        </ul>
+
+        <!-- Contenido de las pestañas -->
+        <div class="tab-content">
+            <!-- Pestaña de Información -->
+            <div class="tab-pane fade show active" id="info">
+                <h2>Presentación</h2>
+                <p><strong>Materia:</strong> Analisis de Datos</p>
+                <p><strong>Parcial Final:</strong> 3 corte</p>
+                <p><strong>Nombre:</strong> Christoffer Stiven Salinas Lopez - Luis Angel Gualteros Gil</p>
+                <p>El cáncer es una de las principales causas de muerte en el mundo. Su incidencia y prevalencia
+                    varían significativamente entre países, según factores como la edad, el sexo, los hábitos de vida,
+                    el medio ambiente y el acceso a la atención médica.</p>
+
+                 <p>Para la realización de la aplicación previamente se entrenaron dos modelos donde se seleccionó finalmente
+                     Random Forest, respecto a la base de datos se utilizaron los datos de los paises, tipos de cancer, la
+                     mortalidad y año. Esta aplicación busca mostrar la taza de mortalidad según el tipo de cancer, según cada país.
+                    </p>
+            </div>
+
+            <!-- Pestaña de Predicción -->
+            <div class="tab-pane fade" id="prediction">
+                <h2>Predicción de Mortalidad</h2>
+                <form id="prediction-form">
+                    <div class="form-group">
+                        <label for="countrySelect">País:</label>
+                        <select id="countrySelect" class="form-control">
+  <option value="AFG">Afghanistan</option>
+  <option value="ALB">Albania</option>
+  <option value="DZA">Algeria</option>
+  <option value="ASM">American Samoa</option>
+  <option value="AR">Andean Latin America</option>
+  <option value="AND">Andorra</option>
+  <option value="AGO">Angola</option>
+  <option value="ATG">Antigua and Barbuda</option>
+  <option value="ARG">Argentina</option>
+  <option value="ARM">Armenia</option>
+  <option value="ANZ">Australasia</option>
+  <option value="AUS">Australia</option>
+  <option value="AUT">Austria</option>
+  <option value="AZE">Azerbaijan</option>
+  <option value="BHS">Bahamas</option>
+  <option value="BHR">Bahrain</option>
+  <option value="BGD">Bangladesh</option>
+  <option value="BRB">Barbados</option>
+  <option value="BLR">Belarus</option>
+  <option value="BEL">Belgium</option>
+  <option value="BLZ">Belize</option>
+  <option value="BEN">Benin</option>
+  <option value="BMU">Bermuda</option>
+  <option value="BTN">Bhutan</option>
+  <option value="BOL">Bolivia</option>
+  <option value="BIH">Bosnia and Herzegovina</option>
+  <option value="BWA">Botswana</option>
+  <option value="BRA">Brazil</option>
+  <option value="BRN">Brunei</option>
+  <option value="BGR">Bulgaria</option>
+  <option value="BFA">Burkina Faso</option>
+  <option value="BDI">Burundi</option>
+  <option value="KHM">Cambodia</option>
+  <option value="CMR">Cameroon</option>
+  <option value="CAN">Canada</option>
+  <option value="CPV">Cape Verde</option>
+  <option value="CAR">Caribbean</option>
+  <option value="CAF">Central African Republic</option>
+  <option value="CA">Central Asia</option>
+  <option value="CE">Central Europe</option>
+  <option value="CSSA">Central Latin America</option>
+  <option value="TCD">Chad</option>
+  <option value="CHL">Chile</option>
+  <option value="CHN">China</option>
+  <option value="COL">Colombia</option>
+  <option value="COM">Comoros</option>
+  <option value="COG">Congo</option>
+  <option value="CRI">Costa Rica</option>
+  <option value="CIV">Cote d'Ivoire</option>
+  <option value="HRV">Croatia</option>
+  <option value="CUB">Cuba</option>
+  <option value="CYP">Cyprus</option>
+  <option value="CZE">Czech Republic</option>
+  <option value="COD">Democratic Republic of Congo</option>
+  <option value="DNK">Denmark</option>
+  <option value="DJI">Djibouti</option>
+  <option value="DMA">Dominica</option>
+  <option value="DOM">Dominican Republic</option>
+  <option value="EA">East Asia</option>
+  <option value="EE">Eastern Europe</option>
+  <option value="ESSA">Eastern Sub-Saharan Africa</option>
+  <option value="ECU">Ecuador</option>
+  <option value="EGY">Egypt</option>
+  <option value="SLV">El Salvador</option>
+  <option value="ENG">England</option>
+  <option value="GNQ">Equatorial Guinea</option>
+  <option value="ERI">Eritrea</option>
+  <option value="EST">Estonia</option>
+  <option value="ETH">Ethiopia</option>
+  <option value="FJI">Fiji</option>
+  <option value="FIN">Finland</option>
+  <option value="FRA">France</option>
+  <option value="GAB">Gabon</option>
+  <option value="GMB">Gambia</option>
+  <option value="GEO">Georgia</option>
+  <option value="DEU">Germany</option>
+  <option value="GHA">Ghana</option>
+  <option value="GRC">Greece</option>
+  <option value="GRL">Greenland</option>
+  <option value="GRD">Grenada</option>
+  <option value="GUM">Guam</option>
+  <option value="GTM">Guatemala</option>
+  <option value="GIN">Guinea</option>
+  <option value="GNB">Guinea-Bissau</option>
+  <option value="GUY">Guyana</option>
+  <option value="HTI">Haiti</option>
+  <option value="HND">Honduras</option>
+  <option value="HUN">Hungary</option>
+  <option value="ISL">Iceland</option>
+  <option value="IND">India</option>
+  <option value="IDN">Indonesia</option>
+  <option value="IRN">Iran</option>
+  <option value="IRQ">Iraq</option>
+  <option value="IRL">Ireland</option>
+<option value="ISR">Israel</option>
+<option value="ITA">Italy</option>
+<option value="JAM">Jamaica</option>
+<option value="JPN">Japan</option>
+<option value="JOR">Jordan</option>
+<option value="KAZ">Kazakhstan</option>
+<option value="KEN">Kenya</option>
+<option value="KIR">Kiribati</option>
+<option value="KWT">Kuwait</option>
+<option value="KGZ">Kyrgyzstan</option>
+<option value="LAO">Laos</option>
+<option value="LAC">Latin America and Caribbean</option>
+<option value="LVA">Latvia</option>
+<option value="LBN">Lebanon</option>
+<option value="LSO">Lesotho</option>
+<option value="LBR">Liberia</option>
+<option value="LBY">Libya</option>
+<option value="LTU">Lithuania</option>
+<option value="LUX">Luxembourg</option>
+<option value="MKD">Macedonia</option>
+<option value="MDG">Madagascar</option>
+<option value="MWI">Malawi</option>
+<option value="MYS">Malaysia</option>
+<option value="MDV">Maldives</option>
+<option value="MLI">Mali</option>
+<option value="MLT">Malta</option>
+<option value="MHL">Marshall Islands</option>
+<option value="MRT">Mauritania</option>
+<option value="MUS">Mauritius</option>
+<option value="MEX">Mexico</option>
+<option value="FSM">Micronesia (country)</option>
+<option value="MDA">Moldova</option>
+<option value="MNG">Mongolia</option>
+<option value="MNE">Montenegro</option>
+<option value="MAR">Morocco</option>
+<option value="MOZ">Mozambique</option>
+<option value="MMR">Myanmar</option>
+<option value="NAM">Namibia</option>
+<option value="NPL">Nepal</option>
+<option value="NLD">Netherlands</option>
+<option value="NZL">New Zealand</option>
+<option value="NIC">Nicaragua</option>
+<option value="NER">Niger</option>
+<option value="NGA">Nigeria</option>
+<option value="NFME">North Africa and Middle East</option>
+<option value="OC">Oceania</option>
+<option value="OMN">Oman</option>
+<option value="PAK">Pakistan</option>
+<option value="PSE">Palestine</option>
+<option value="PAN">Panama</option>
+<option value="PNG">Papua New Guinea</option>
+<option value="PRY">Paraguay</option>
+<option value="PER">Peru</option>
+<option value="PHL">Philippines</option>
+<option value="POL">Poland</option>
+<option value="PRT">Portugal</option>
+<option value="PRI">Puerto Rico</option>
+<option value="QAT">Qatar</option>
+<option value="ROU">Romania</option>
+<option value="RUS">Russia</option>
+<option value="RWA">Rwanda</option>
+<option value="LCA">Saint Lucia</option>
+<option value="VCT">Saint Vincent and the Grenadines</option>
+<option value="WSM">Samoa</option>
+<option value="STP">Sao Tome and Principe</option>
+<option value="SAU">Saudi Arabia</option>
+<option value="SCT">Scotland</option>
+<option value="SEN">Senegal</option>
+<option value="SRB">Serbia</option>
+<option value="SYC">Seychelles</option>
+<option value="SLE">Sierra Leone</option>
+<option value="SGP">Singapore</option>
+<option value="SVK">Slovakia</option>
+<option value="SVN">Slovenia</option>
+<option value="SLB">Solomon Islands</option>
+<option value="SOM">Somalia</option>
+<option value="ZAF">South Africa</option>
+<option value="SA">South Asia</option>
+<option value="KOR">South Korea</option>
+<option value="SSD">South Sudan</option>
+<option value="SEA">Southeast Asia</option>
+<option value="SLATAM">Southern Latin America</option>
+<option value="SSSA">Southern Sub-Saharan Africa</option>
+<option value="ESP">Spain</option>
+<option value="LKA">Sri Lanka</option>
+<option value="SSA">Sub-Saharan Africa</option>
+<option value="SDN">Sudan</option>
+<option value="SUR">Suriname</option>
+<option value="SWZ">Swaziland</option>
+<option value="SWE">Sweden</option>
+<option value="CHE">Switzerland</option>
+<option value="SYR">Syria</option>
+<option value="TWN">Taiwan</option>
+<option value="TJK">Tajikistan</option>
+<option value="TZA">Tanzania</option>
+<option value="THA">Thailand</option>
+<option value="TLS">Timor</option>
+<option value="TGO">Togo</option>
+<option value="TON">Tonga</option>
+<option value="TTO">Trinidad and Tobago</option>
+<option value="TLATAM">Tropical Latin America</option>
+<option value="TUN">Tunisia</option>
+<option value="TUR">Turkey</option>
+<option value="TKM">Turkmenistan</option>
+<option value="UGA">Uganda</option>
+<option value="UKR">Ukraine</option>
+<option value="ARE">United Arab Emirates</option>
+<option value="GBR">United Kingdom</option>
+<option value="USA">United States</option>
+<option value="VIR">United States Virgin Islands</option>
+<option value="URY">Uruguay</option>
+<option value="UZB">Uzbekistan</option>
+<option value="VUT">Vanuatu</option>
+<option value="VEN">Venezuela</option>
+<option value="VNM">Vietnam</option>
+<option value="WA">Wales</option>
+<option value="WE">Western Europe</option>
+<option value="WSSA">Western Sub-Saharan Africa</option>
+<option value="OWID_WRL">World</option>
+<option value="YEM">Yemen</option>
+<option value="ZMB">Zambia</option>
+<option value="ZWE">Zimbabwe</option>
+</select>
+                    </div>
+                    <div class="form-group">
+                        <label for="yearInput">Año:</label>
+                        <input type="number" class="form-control" id="yearInput" placeholder="Ingrese el año">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="predictMortality()">Predecir Mortalidad</button>
+                </form>
+
+                <div class="result-container" id="resultContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+
+        function predictMortality() {
+            // Obtiene datos del formulario
+            var country = document.getElementById('countrySelect').value;
+            var year = document.getElementById('yearInput').value;
+            document.getElementById('resultContainer').innerHTML = '';
+
+
+            // Realiza la solicitud a la API
+            fetch('https://fastapi-production-3c0d.up.railway.app/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ano: parseInt(year),
+                        country: country,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    // Parsea el JSON contenido en la propiedad 'message'
+                    const parsedData = JSON.parse(data.message);
+
+                    // Verifica que parsedData tenga las propiedades esperadas
+                    if (parsedData && parsedData['Tipo de Cancer'] && parsedData['Probabilidad de Mortalidad']) {
+                        // Crea la tabla y añade las cabeceras
+                var table = document.createElement('table');
+                table.style.width = '100%';
+                table.setAttribute('border', '1');
+                var thead = document.createElement('thead');
+                var tr = document.createElement('tr');
+                var th1 = document.createElement('th');
+                th1.textContent = 'Tipo de Cancer';
+                var th2 = document.createElement('th');
+                th2.textContent = 'Probabilidad de Mortalidad';
+                tr.appendChild(th1);
+                tr.appendChild(th2);
+                thead.appendChild(tr);
+                table.appendChild(thead);
+
+                        // Itera sobre las propiedades del objeto
+                       // for (const key in parsedData['Tipo de Cancer']) {
+                           // if (parsedData['Tipo de Cancer'].hasOwnProperty(key)) {
+                              //  const cancerType = parsedData['Tipo de Cancer'][key];
+                              //  const mortalityProbability = parsedData['Probabilidad de Mortalidad'][key];
+                             //   resultContainer.innerHTML += `<p><strong>${cancerType}:</strong> ${mortalityProbability}</p>`;
+                           // }
+                       // }
+
+                       var tbody = document.createElement('tbody');
+                for (const key in parsedData['Tipo de Cancer']) {
+                    if (parsedData['Tipo de Cancer'].hasOwnProperty(key)) {
+                        const cancerType = parsedData['Tipo de Cancer'][key];
+                        const mortalityProbability = parsedData['Probabilidad de Mortalidad'][key];
+                        var tr = document.createElement('tr');
+                        var td1 = document.createElement('td');
+                        td1.textContent = cancerType;
+                        var td2 = document.createElement('td');
+                        td2.textContent = mortalityProbability;
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+                        tbody.appendChild(tr);
+                    }
+                }
+                table.appendChild(tbody);
+
+                // Añade la tabla al contenedor de resultados
+                resultContainer.appendChild(table);
+                    } else {
+                        // Maneja el caso en el que parsedData no tiene el formato esperado
+                        console.error('Error: La respuesta no tiene el formato esperado', parsedData);
+                    }
+                })
+
+                           .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAxPWMU6-uXE4MmEih9uBAzYMjO_ZVnlTo",
+      authDomain: "parcialfinal-ac38b.firebaseapp.com",
+      projectId: "parcialfinal-ac38b",
+      storageBucket: "parcialfinal-ac38b.appspot.com",
+      messagingSenderId: "285337938512",
+      appId: "1:285337938512:web:f3666b7e904d0f4555bf55",
+      measurementId: "G-BF4KH2BFH4"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</body>
+
+</html>
